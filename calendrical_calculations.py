@@ -44,7 +44,7 @@ class GregorianDate:
     # Computes the Gregorian date from the absolute date.
     
     # Search forward year by year from approximate year
-    year = d/366
+    year = d//366
     while (d >= GregorianDate(1,1,year+1).to_absolute()):
       year += 1
     # Search forward month by month from January
@@ -65,9 +65,9 @@ class GregorianDate:
       m -= 1
     return (N                    # days this year
        + 365 * (self.year - 1)   # days in previous years ignoring leap days
-       + (self.year - 1)/4       # Julian leap days before this year...
-       - (self.year - 1)/100     # ...minus prior century years...
-       + (self.year - 1)/400)   # ...plus prior years divisible by 400
+       + (self.year - 1)//4       # Julian leap days before this year...
+       - (self.year - 1)//100     # ...minus prior century years...
+       + (self.year - 1)//400)   # ...plus prior years divisible by 400
 
 
 # Hebrew dates
@@ -92,13 +92,13 @@ def HebrewCalendarElapsedDays(year):
 # Number of days elapsed from the Sunday prior to the start of the
 # Hebrew calendar to the mean conjunction of Tishri of Hebrew year.
   
-  MonthsElapsed = ((235 * ((year - 1) / 19)) +     # Months in complete cycles so far.
+  MonthsElapsed = ((235 * ((year - 1) // 19)) +     # Months in complete cycles so far.
     (12 * ((year - 1) % 19)) +                    # Regular months in this cycle.
-    (7 * ((year - 1) % 19) + 1) / 19)             # Leap months this cycle
+    (7 * ((year - 1) % 19) + 1) // 19)             # Leap months this cycle
   PartsElapsed = 204 + 793 * (MonthsElapsed % 1080)
-  HoursElapsed = 5 + 12 * MonthsElapsed + 793 * (MonthsElapsed  / 1080) \
-    + PartsElapsed / 1080;
-  ConjunctionDay = 1 + 29 * MonthsElapsed + HoursElapsed / 24;
+  HoursElapsed = 5 + 12 * MonthsElapsed + 793 * (MonthsElapsed  // 1080) \
+    + PartsElapsed // 1080;
+  ConjunctionDay = 1 + 29 * MonthsElapsed + HoursElapsed // 24;
   ConjunctionParts = 1080 * (HoursElapsed % 24) + PartsElapsed % 1080;
   
   AlternativeDay = None
@@ -171,7 +171,7 @@ class HebrewDate:
   @staticmethod
   def from_absolute(d):
     # Computes the Hebrew date from the absolute date.
-    year = (d + HebrewEpoch) / 366; # Approximation from below.
+    year = (d + HebrewEpoch) // 366; # Approximation from below.
     # Search forward for year from the approximation.
     while (d >= HebrewDate(7, 1, year + 1).to_absolute()):
       year += 1;
@@ -227,7 +227,7 @@ def main():
     
     hdate = HebrewDate.from_absolute(g_absolute)
     
-    print "%d/%d/%d on the Gregorian calendar is %d/%d/%d on the hebrew calendar" % (gdate.year, gdate.month, gdate.day, hdate.year, hdate.month, hdate.day)
+    print ("%d/%d/%d on the Gregorian calendar is %d/%d/%d on the hebrew calendar" % (gdate.year, gdate.month, gdate.day, hdate.year, hdate.month, hdate.day))
     
     
 
